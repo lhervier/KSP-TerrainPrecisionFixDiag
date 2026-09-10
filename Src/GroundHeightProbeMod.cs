@@ -25,13 +25,6 @@ namespace com.github.lhervier.ksp.groundheightprobe
         // move from one loading to the next, being the saved value handed back untouched.
         private readonly Reading live = new Reading();
 
-        private Rect windowRect = new Rect(
-            Constants.WINDOW_X, 
-            Constants.WINDOW_Y, 
-            Constants.WINDOW_WIDTH, 
-            0f
-        );
-
         private void Update()
         {
             Vessel vessel = FlightGlobals.ActiveVessel;
@@ -61,21 +54,16 @@ namespace com.github.lhervier.ksp.groundheightprobe
             return toCentre.magnitude * 1000.0;
         }
 
-        /// <summary>Copies the line in progress into the table, where it stops moving.</summary>
-        private void Record()
-        {
-            if (double.IsNaN(live.SettledMm))
-            {
-                return;
-            }
-            READINGS.Add(
-                new Reading
-                {
-                    OnRailsMm = live.OnRailsMm,
-                    SettledMm = live.SettledMm
-                }
-            );
-        }
+        // =========================================================
+        // UI
+        // =========================================================
+
+        private Rect windowRect = new Rect(
+            Constants.WINDOW_X, 
+            Constants.WINDOW_Y, 
+            Constants.WINDOW_WIDTH, 
+            0f
+        );
 
         private void OnGUI()
         {
@@ -133,7 +121,16 @@ namespace com.github.lhervier.ksp.groundheightprobe
             );
             if (GUILayout.Button("Record", GUILayout.Width(Constants.COL_BUTTON)))
             {
-                Record();
+                if (!double.IsNaN(live.SettledMm))
+                {
+                    READINGS.Add(
+                        new Reading
+                        {
+                            OnRailsMm = live.OnRailsMm,
+                            SettledMm = live.SettledMm
+                        }
+                    );
+                }
             }
             GUILayout.EndHorizontal();
 
