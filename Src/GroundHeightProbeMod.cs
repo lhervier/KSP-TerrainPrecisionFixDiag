@@ -25,7 +25,6 @@ namespace com.github.lhervier.ksp.groundheightprobe
         private class Reading
         {
             public int Loading;
-            public string BodyName;
             public double OnRailsMm;
             public double SettledMm;
         }
@@ -90,19 +89,10 @@ namespace com.github.lhervier.ksp.groundheightprobe
                 return;
             }
 
-            // A campaign covers one body. Mixing two would make the range line meaningless, and the range
-            // line is the point of the whole table.
-            if (READINGS.Count > 0 && READINGS[0].BodyName != bodyName)
-            {
-                READINGS.Clear();
-                currentReading = null;
-            }
-
             if (currentReading == null)
             {
                 currentReading = new Reading();
                 currentReading.Loading = READINGS.Count + 1;
-                currentReading.BodyName = bodyName;
                 READINGS.Add(currentReading);
             }
             currentReading.OnRailsMm = onRailsMm;
