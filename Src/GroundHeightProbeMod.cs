@@ -157,32 +157,27 @@ namespace com.github.lhervier.ksp.groundheightprobe
 
         private void DrawTable()
         {
-            DrawRow("Loading", "On rails (mm)", "Settled (mm)", "Delta");
+            DrawRow("Loading", "On rails (mm)", "Settled (mm)", "Moved (mm)");
             if (READINGS.Count == 0)
             {
                 GUILayout.Label("Nothing recorded yet.");
                 return;
             }
 
-            double reference = READINGS[0].SettledMm;
             for (int i = 0; i < READINGS.Count; i++)
             {
                 Reading reading = READINGS[i];
-                string delta = i == 0
-                    ? "reference"
-                    : (reading.SettledMm - reference).ToString("+0.000;-0.000;0.000", CultureInfo.InvariantCulture);
                 DrawRow(reading.Loading.ToString(CultureInfo.InvariantCulture),
-                    Format(reading.OnRailsMm), Format(reading.SettledMm), delta);
+                    Format(reading.OnRailsMm), Format(reading.SettledMm), FormatSigned(MovedMm(reading)));
             }
 
             GUILayout.Space(8f);
 
-            // The two ranges side by side are the demonstration: the value read back from the save does
-            // not move, the one measured once the vessel has settled does.
-            GUILayout.Label("Range on rails, over " + READINGS.Count + " loadings: "
-                + Format(RangeMm(true)) + " mm");
-            GUILayout.Label("Range settled, over " + READINGS.Count + " loadings: "
-                + Format(RangeMm(false)) + " mm", headlineStyle);
+            // One figure to sum the table up: how far apart the extreme loadings landed. The control
+            // column needs no such line -- a column of identical numbers says it better than a statistic.
+            GUILayout.Label("Ground moved over a range of " + Format(MovedRangeMm())
+                + " mm across " + READINGS.Count + (READINGS.Count == 1 ? " loading" : " loadings"),
+                headlineStyle);
         }
 
         private void DrawRow(string loading, string onRails, string settled, string delta)
@@ -196,23 +191,32 @@ namespace com.github.lhervier.ksp.groundheightprobe
         }
 
         /// <summary>
-        /// Spread between the largest and the smallest reading of one column, in millimetres, or NaN when
-        /// fewer than two rows carry a value.
+        /// How far the vessel ended up from the position the save gave back, in millimetres, negative
+        /// downwards. NaN when the loading carries no on rails reading.
         /// </summary>
-        private static double RangeMm(bool onRails)
+        private static double MovedMm(Reading reading)
+        {
+            return reading.SettledMm - reading.OnRailsMm;
+        }
+
+        /// <summary>
+        /// Spread between the largest and the smallest of the moved figures, in millimetres, or NaN when
+        /// fewer than two loadings carry one.
+        /// </summary>
+        private static double MovedRangeMm()
         {
             double min = double.MaxValue;
             double max = double.MinValue;
             int count = 0;
             for (int i = 0; i < READINGS.Count; i++)
             {
-                double value = onRails ? READINGS[i].OnRailsMm : READINGS[i].SettledMm;
-                if (double.IsNaN(value))
+                double moved = MovedMm(READINGS[i]);
+                if (double.IsNaN(moved))
                 {
                     continue;
                 }
-                min = value < min ? value : min;
-                max = value > max ? value : max;
+                min = moved < min ? moved : min;
+                max = moved > max ? moved : max;
                 count++;
             }
             return count < 2 ? double.NaN : max - min;
@@ -221,6 +225,12 @@ namespace com.github.lhervier.ksp.groundheightprobe
         private static string Format(double mm)
         {
             return double.IsNaN(mm) ? "--" : mm.ToString("N3", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>Same as Format, with the sign always shown: the sign is what tells fall from ejection.</summary>
+        private static string FormatSigned(double mm)
+        {
+            return double.IsNaN(mm) ? "--" : mm.ToString("+0.000;-0.000;0.000", CultureInfo.InvariantCulture);
         }
     }
 }
