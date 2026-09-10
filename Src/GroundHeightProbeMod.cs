@@ -36,7 +36,12 @@ namespace com.github.lhervier.ksp.groundheightprobe
             live.SettledMm = DistanceToCentreMm(vessel);
 
             // Still packed means no physics step has run yet, so the vessel is where the save put it.
-            if (double.IsNaN(live.OnRailsMm) && vessel.packed)
+            //
+            // Kept refreshed for as long as it stays on rails, rather than taken on the first frame: the
+            // opening frames of a scene are still settling into place, and reading during them offsets
+            // the whole column by a few millimetres. What is left when physics takes over is the position
+            // the save gave back, which is what this column is for.
+            if (vessel.packed)
             {
                 live.OnRailsMm = live.SettledMm;
             }
