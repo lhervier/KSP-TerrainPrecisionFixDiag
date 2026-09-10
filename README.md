@@ -85,13 +85,14 @@ Drop `GameData/GroundHeightProbeMod` into the `GameData` of KSP, so that you end
 
 ## The window
 
-In flight, a window shows the distance from the centre of mass of the active vessel to the centre of
-its body, live, in millimetres. One button records a line in a table that survives scene changes:
+In flight, a window shows a table with one line per loading, in millimetres. The **bottom line is the
+loading in progress**: its numbers move as you watch, and the *Record* button at the end of that line
+freezes it into the table. The table survives scene changes, so the lines pile up as you reload.
 
 | column | meaning |
 |---|---|
 | **On rails** | read the instant the scene opens, before physics has started — the position from the save, handed back untouched |
-| **Settled** | read when you press the button, so once the craft has come to rest |
+| **Settled** | the distance right now, running live until you press the button — so, once the craft has come to rest |
 | **Moved** | **Settled** minus **On rails** — how far the craft ended up from where the save put it, this loading. Negative means it went down |
 
 **Moved** is the figure to look at, and it should be zero. The save puts the craft down at a given
@@ -107,12 +108,13 @@ measurement: the figure is how far below the saved height the ground turned out 
 out. Still evidence that the ground was somewhere else, but the figure itself is spoiled: it measures
 how hard the craft was shoved, not how deep it was buried.
 
-The line at the bottom sums the table up: the spread between the loading that moved the least and the
-one that moved the most.
+Watch the live line as the craft settles and you see the demonstration play out: while the craft is
+still on rails the two distances are equal and **Moved** reads `0.000`, and it is the first step of
+physics that breaks the zero.
 
-The table lives in memory only: it empties itself when KSP is closed, and the *Clear table* button
-empties it on demand. Recording twice in the same flight scene updates that loading's line rather
-than adding a second one.
+Every frozen line carries a *Delete* button, so a line recorded too early — before the craft had
+finished settling — costs one click to throw away. *Clear table* throws away the lot. The table lives
+in memory only, and empties itself when KSP is closed.
 
 ## The protocol
 
@@ -138,15 +140,15 @@ there is only one thing under the capsule.
 
 ![Creating the save](imgs/20-create-save.png)
 
-If you pressed *Record* before saving — out of curiosity, while placing the capsule — press *Clear
-table* now. That line was taken before the save existed, so its **On rails** value is the launch
-position and does not belong in the same column as the others.
+If you pressed *Record* before saving — out of curiosity, while placing the capsule — delete that
+line now. It was taken before the save existed, so its **On rails** value is the launch position and
+does not belong in the same column as the others.
 
 **4. Load that same save.**
 
 ![Loading the save](imgs/30-load.png)
 
-**5. Let the capsule settle a couple of seconds, then press *Record this loading*.**
+**5. Watch the live line until it stops moving, then press *Record* at the end of it.**
 
 ![The capsule settled, about to record](imgs/40-record.png)
 
