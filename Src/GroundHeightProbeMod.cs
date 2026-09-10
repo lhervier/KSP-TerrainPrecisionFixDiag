@@ -15,10 +15,6 @@ namespace com.github.lhervier.ksp.groundheightprobe
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class GroundHeightProbeMod : MonoBehaviour
     {
-        private const string LOG_PREFIX = "[GroundHeightProbe] ";
-
-        private const int WINDOW_ID = 0x47485001;
-
         // Column widths, in pixels. Fixed rather than laid out by content: the numbers only speak once
         // aligned as a column, and the skin font is not monospaced.
         private const float COL_LOADING = 70f;
@@ -111,9 +107,6 @@ namespace com.github.lhervier.ksp.groundheightprobe
             }
             currentReading.OnRailsMm = onRailsMm;
             currentReading.SettledMm = liveMm;
-
-            Debug.Log(LOG_PREFIX + "loading " + currentReading.Loading + " on " + bodyName
-                + ": on rails " + Format(onRailsMm) + " mm, settled " + Format(liveMm) + " mm");
         }
 
         private void OnGUI()
@@ -124,7 +117,7 @@ namespace com.github.lhervier.ksp.groundheightprobe
                 headlineStyle = new GUIStyle(HighLogic.Skin.label);
                 headlineStyle.fontStyle = FontStyle.Bold;
             }
-            windowRect = GUILayout.Window(WINDOW_ID, windowRect, DrawWindow, "Ground Height Probe");
+            windowRect = GUILayout.Window(0x47485001, windowRect, DrawWindow, "Ground Height Probe");
         }
 
         private void DrawWindow(int id)
