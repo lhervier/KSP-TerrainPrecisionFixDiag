@@ -8,20 +8,14 @@ namespace com.github.lhervier.ksp.groundheightprobe
     /// active vessel starts the scene at, taken once at loading, and the one it is at right now. The
     /// player freezes the pair into a table whenever it suits them, and the table survives scene changes,
     /// so reloading the same save several times builds it up line by line.
-    ///
-    /// It measures and nothing else: no vessel is moved, no stock behaviour is patched, nothing is
-    /// written to disk.
     /// </summary>
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class GroundHeightProbeMod : MonoBehaviour
     {
-        // The table lives in a static: a KSPAddon is rebuilt for every scene, so an instance field would
-        // lose it on the very event being measured. Nothing is persisted, so it empties itself when KSP
-        // is closed, which is exactly the lifetime one measurement campaign needs.
         private static readonly List<Reading> READINGS = new List<Reading>();
 
         // The line in progress, the only one that still moves. Its OnRailsMm is read while the vessel is
-        // still on rails, before any physics step has run: that is the control column, and it must not
+        // still on rails, before any physics step has run: that is the control column, and it should not
         // move from one loading to the next, being the saved value handed back untouched.
         private readonly Reading live = new Reading();
 
@@ -36,11 +30,6 @@ namespace com.github.lhervier.ksp.groundheightprobe
             live.SettledMm = DistanceToCentreMm(vessel);
 
             // Still packed means no physics step has run yet, so the vessel is where the save put it.
-            //
-            // Kept refreshed for as long as it stays on rails, rather than taken on the first frame: the
-            // opening frames of a scene are still settling into place, and reading during them offsets
-            // the whole column by a few millimetres. What is left when physics takes over is the position
-            // the save gave back, which is what this column is for.
             if (vessel.packed)
             {
                 live.OnRailsMm = live.SettledMm;
@@ -85,12 +74,12 @@ namespace com.github.lhervier.ksp.groundheightprobe
         {
             GUILayout.BeginVertical();
 
+            // Header
             GUILayout.BeginHorizontal();
             DrawCells("Record #", "On rails (mm)", "Settled (mm)", "Moved (mm)");
             GUILayout.EndHorizontal();
 
-            // Line numbers are drawn from the position in the list rather than stored, so that deleting a
-            // line renumbers the rest for free.
+            // Recorded lines
             int deleteIndex = -1;
             for (int i = 0; i < READINGS.Count; i++)
             {
@@ -113,10 +102,7 @@ namespace com.github.lhervier.ksp.groundheightprobe
                 READINGS.RemoveAt(deleteIndex);
             }
 
-            // The loading in progress, drawn as one more line of the table, live. Watching Settled come
-            // down and Moved drift away from zero in the very cells they will occupy is the demonstration
-            // playing out: while the vessel is still on rails the two distances are equal and Moved reads
-            // 0.000, and it is the first physics step that breaks the zero.
+            // Current line
             GUILayout.BeginHorizontal();
             DrawCells(
                 FormatUtils.Format(READINGS.Count + 1), 
@@ -139,6 +125,7 @@ namespace com.github.lhervier.ksp.groundheightprobe
             }
             GUILayout.EndHorizontal();
 
+            // Clear table button
             GUILayout.Space(10f);
             if (GUILayout.Button("Clear table"))
             {
@@ -158,6 +145,5 @@ namespace com.github.lhervier.ksp.groundheightprobe
             GUILayout.Label(settled, GUILayout.Width(Constants.COL_DISTANCE));
             GUILayout.Label(moved, GUILayout.Width(Constants.COL_MOVED));
         }
-
     }
 }
