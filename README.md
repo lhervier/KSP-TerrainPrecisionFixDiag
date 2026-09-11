@@ -30,35 +30,39 @@ The same value in **On rails**, six times over: KSP handed the capsule back in e
 every single time. Never a zero in **Moved**: on all six, the ground turned out to be somewhere else.
 Sometimes lower, and the capsule dropped onto it; sometimes higher, and it got pushed back out.
 
-## The same test, on another world
+## The same test, on other worlds
 
 The same lone capsule, the same six loadings of one save, done again on the Mun:
 
 ![Six loadings of the same save, on the Mun](imgs/70-mune-record-again-and-again.png)
 
-| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) |
-|---|---|---|
-| 1 | +22.294 | +1.912 |
-| 2 | +73.424 | −19.405 |
-| 3 | −22.364 | −13.761 |
-| 4 | +82.507 | +3.501 |
-| 5 | −38.344 | +3.570 |
-| 6 | −32.242 | −10.880 |
-| **lowest to highest** | **120.9 mm** | **23.0 mm** |
+and on Gilly, the smallest place there is to stand on:
 
-**On rails** never budged on either world — `600,065,198.711` mm on Kerbin and `204,349,483.258` mm
-on the Mun, the same digits on every single line. So in both places KSP handed the capsule back
-exactly where it had been left, and in both places it still came to rest somewhere else.
+![Six loadings of the same save, on Gilly](imgs/80-gilly-record-again-and-again.png)
 
-Twelve loadings, twelve different resting heights, and not one zero in either **Moved** column.
+| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) | Gilly — **Moved** (mm) |
+|---|---|---|---|
+| 1 | +22.294 | +1.912 | −6.215 |
+| 2 | +73.424 | −19.405 | −5.739 |
+| 3 | −22.364 | −13.761 | −7.348 |
+| 4 | +82.507 | +3.501 | −5.739 |
+| 5 | −38.344 | +3.570 | −5.276 |
+| 6 | −32.242 | −10.880 | −5.435 |
+| **lowest to highest** | **120.9 mm** | **23.0 mm** | **2.1 mm** |
 
-Both of these were measured on the same **stock install**, with nothing in `GameData` but Squad and
+**On rails** never budged on any of the three worlds — `600,065,198.711` mm on Kerbin,
+`204,349,483.258` mm on the Mun and `17,729,505.324` mm on Gilly, the same digits on every single
+line. So everywhere KSP handed the capsule back exactly where it had been left, and everywhere it
+still came to rest at a height that changed from one loading to the next.
+
+All three were measured on the same **stock install**, with nothing in `GameData` but Squad and
 this mod. There is no mod conflict to look for, and nothing to uninstall: this is what KSP does on
 its own.
 
-The numbers are smaller on the Mun — around five times smaller here — and that is worth following up.
-If you run this on a world nobody has tried yet, the size of what you get is as interesting as the
-fact that you get anything at all. Gilly is the smallest place there is to stand on.
+The spread shrinks with the size of the world: 120.9 mm at 600 km from the centre of Kerbin,
+23.0 mm at 204 km from the centre of the Mun, 2.1 mm at 17.7 km from the centre of Gilly. The
+smaller the world, the steadier its ground — but on none of the three does it come back twice at
+the same height.
 
 ## Why it matters
 
@@ -165,6 +169,13 @@ same. The trouble is that they no longer say what moved. The launchpad and the r
 not ground: KSP puts them in place its own way, and their height may well have a wobble of its own.
 A reading taken there is the sum of two effects and tells you nothing about either. On bare terrain
 there is only one thing under the capsule.
+
+⚠️ **And the ground must be flat.** A craft made of a single part is a special case for KSP: on every
+loading, it tries to put the craft back onto the ground itself. On flat ground there is nothing to
+correct, and the capsule is left exactly where the save put it. On a slope KSP moves it, and the
+reading then mixes that move with the ground's. You can tell from `KSP.log`: a line
+`ground contact! - error. Moving Vessel` naming your capsule, right before `Unpacking`. If you get
+that line, find flatter ground.
 
 **3. Let it settle, and save once.**
 

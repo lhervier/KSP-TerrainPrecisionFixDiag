@@ -37,14 +37,15 @@ namespace com.github.lhervier.ksp.groundheightprobe
         }
 
         /// <summary>
-        /// Distance from the centre of mass of the vessel to the centre of the body it orbits, in
-        /// millimetres.
+        /// Distance from the origin of the root part of the vessel to the centre of the body it orbits,
+        /// in millimetres. That origin is the point KSP saves and restores, so once the vessel is loaded
+        /// and still on rails, this distance is exactly the body radius plus the saved altitude.
         /// </summary>
         private static double DistanceToCentreMm(Vessel vessel)
         {
             // Vector3d on both sides, deliberately: reading a few millimetres out of six hundred
             // kilometres leaves no room for anything short of double precision.
-            Vector3d toCentre = vessel.GetWorldPos3D() - vessel.mainBody.position;
+            Vector3d toCentre = (Vector3d)vessel.vesselTransform.position - vessel.mainBody.position;
             return toCentre.magnitude * 1000.0;
         }
 
