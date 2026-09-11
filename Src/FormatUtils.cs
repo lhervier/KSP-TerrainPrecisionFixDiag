@@ -8,11 +8,20 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
     /// </summary>
     internal static class FormatUtils
     {
-        /// <summary>A record number.</summary>
+        /// <summary>
+        /// The number a record carries in the table, or "--" for NO_NUMBER.
+        /// </summary>
         public static string Format(int number)
         {
-            return number.ToString(CultureInfo.InvariantCulture);
+            return number < 0 ? "--" : number.ToString(CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Stands for the record number of a line that has none: the line in progress, which is not a
+        /// record until it is frozen into the table. What NaN does for the distances, int cannot do, so
+        /// any negative number does it instead.
+        /// </summary>
+        public const int NO_NUMBER = -1;
 
         /// <summary>
         /// A distance in millimetres, to the thousandth, or "--" when it has not been read yet.

@@ -26,8 +26,10 @@ grass just off the end of the runway, loaded six times:
 
 ![Six loadings of the same save](imgs/tests/10-kerbin.png)
 
-(The bottom line is the loading in progress: after the sixth *Record*, it keeps showing that same
-sixth loading, still live. It is not a seventh one.)
+(The bottom line is the loading in progress, not a seventh one: after the sixth *Record*, it keeps
+showing that same sixth loading, still live. It carries `--` instead of a number, since it is not a
+record until you freeze it. The screenshots on this page were taken before it did, and still show a
+number there.)
 
 The same value in **On rails**, six times over: KSP handed the capsule back in exactly the same
 place, every single time. Never a zero in **Moved**: on all six, the ground turned out to be
@@ -156,8 +158,9 @@ Drop `GameData/TerrainPrecisionFixDiagMod` into the `GameData` of KSP, so that y
 ## The window
 
 In flight, a window shows a table with one line per loading, in millimetres. The **bottom line is the
-loading in progress**: its numbers move as you watch, and the *Record* button at the end of that line
-freezes it into the table. The table survives scene changes, so the lines pile up as you reload.
+loading in progress**: its numbers move as you watch, it carries `--` where the others carry a record
+number, and the *Record* button at the end of it freezes it into the table. The table survives scene
+changes, so the lines pile up as you reload.
 
 | column | meaning |
 |---|---|

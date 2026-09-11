@@ -106,7 +106,7 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
             // Current line
             GUILayout.BeginHorizontal();
             DrawCells(
-                FormatUtils.Format(READINGS.Count + 1), 
+                FormatUtils.Format(FormatUtils.NO_NUMBER), 
                 FormatUtils.Format(live.OnRailsMm),
                 FormatUtils.Format(live.SettledMm), 
                 FormatUtils.FormatSigned(live.MovedMm())
