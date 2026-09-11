@@ -267,3 +267,7 @@ do.
 Half of that holds. **On rails** comes back to within a thousandth of a millimetre, so the save and
 reload round trip is exact and the capsule really is put back where it was. **Moved** is not zero on
 a single line, and it is not small either.
+
+## License
+
+MIT
