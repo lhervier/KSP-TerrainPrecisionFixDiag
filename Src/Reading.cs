@@ -1,4 +1,4 @@
-namespace com.github.lhervier.ksp.groundheightprobe
+namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 {
     /// <summary>
     /// One line of the table: where the vessel started the scene, and where it is now. Both start

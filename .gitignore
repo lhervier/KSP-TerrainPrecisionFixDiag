@@ -1,4 +1,5 @@
 Output/
 obj/
-GameData/GroundHeightProbeMod/*.dll
-GameData/GroundHeightProbeMod/*.zip
+GameData/TerrainPrecisionFixDiagMod/*.dll
+GameData/TerrainPrecisionFixDiagMod/*.zip
+CLAUDE.md

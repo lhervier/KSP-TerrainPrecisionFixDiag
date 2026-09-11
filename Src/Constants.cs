@@ -1,4 +1,4 @@
-namespace com.github.lhervier.ksp.groundheightprobe
+namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 {
     /// <summary>Fixed sizes and identifiers of the flight window.</summary>
     internal static class Constants

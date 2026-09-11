@@ -1,4 +1,4 @@
-# Ground Height Probe
+# Terrain Precision Fix - Diagnostic Mod
 
 A measuring instrument for KSP 1.12. It lets you check, on your own install, a claim about the ground
 your craft is parked on:
@@ -137,20 +137,21 @@ needs a suspension, several parts, or a slope to happen.
 
 ## Get it
 
-Either way you end up with the same `GameData/GroundHeightProbeMod/` folder.
+Either way you end up with the same `GameData/TerrainPrecisionFixDiagMod/` folder.
 
-**Download it** — grab `GroundHeightProbeMod.zip` from the assets of the
-[latest release](https://github.com/lhervier/KSP-GroundHeightProbe/releases/latest).
+**Download it** — from the assets of the
+[latest release](https://github.com/lhervier/KSP-TerrainPrecisionFixDiag/releases/latest).
 
 **Or compile it** — clone this repository, set `KSPDIR` to your KSP install folder and run
-`build.bat`. It needs the .NET SDK, takes a few seconds, and reads the KSP assemblies straight from
-your install. Worth doing if you would rather not run a binary you have no source for while
-reporting a measurement.
+`build.bat`. It needs the .NET SDK, takes a few seconds, reads the KSP assemblies straight from
+your install, and puts the DLL in `GameData/TerrainPrecisionFixDiagMod/` inside the repository. It
+does not install anything. Worth doing if you would rather not run a binary you have no source for
+while reporting a measurement.
 
 ## Install
 
-Drop `GameData/GroundHeightProbeMod` into the `GameData` of KSP, so that you end up with
-`GameData/GroundHeightProbeMod/GroundHeightProbeMod.dll`. It runs on a stock install.
+Drop `GameData/TerrainPrecisionFixDiagMod` into the `GameData` of KSP, so that you end up with
+`GameData/TerrainPrecisionFixDiagMod/TerrainPrecisionFixDiagMod.dll`. It runs on a stock install.
 
 ## The window
 
@@ -206,8 +207,8 @@ A reading taken there is the sum of two effects and tells you nothing about eith
 there is only one thing under the capsule.
 
 ⚠️ **And the ground must be flat.** A craft made of a single part is a special case for KSP: on every
-loading, it tries to put the craft back onto the ground itself. On flat ground there is nothing to
-correct, and the capsule is left exactly where the save put it. On a slope KSP moves it, and the
+loading, it tries to put the craft back onto the ground itself. On flat ground this does nothing,
+and the capsule is left exactly where the save put it. On a slope KSP moves it, and the
 reading then mixes that move with the ground's. You can tell from `KSP.log`: a line
 `ground contact! - error. Moving Vessel` naming your capsule, right before `Unpacking`. If you get
 that line, find flatter ground.

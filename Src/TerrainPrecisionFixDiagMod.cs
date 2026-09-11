@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace com.github.lhervier.ksp.groundheightprobe
+namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 {
     /// <summary>
     /// Position recorder. Follows two distances from the centre of the body, in millimetres: the one the
@@ -10,7 +10,7 @@ namespace com.github.lhervier.ksp.groundheightprobe
     /// so reloading the same save several times builds it up line by line.
     /// </summary>
     [KSPAddon(KSPAddon.Startup.Flight, false)]
-    public class GroundHeightProbeMod : MonoBehaviour
+    public class TerrainPrecisionFixDiagMod : MonoBehaviour
     {
         private static readonly List<Reading> READINGS = new List<Reading>();
 
@@ -67,7 +67,7 @@ namespace com.github.lhervier.ksp.groundheightprobe
                 Constants.WINDOW_ID, 
                 windowRect, 
                 DrawWindow, 
-                "Ground Height Probe"
+                "Terrain Precision Fix Diag"
             );
         }
 

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace com.github.lhervier.ksp.groundheightprobe
+namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 {
     /// <summary>
     /// Turns what has been measured into what the table shows. Invariant culture throughout, so that two

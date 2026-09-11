@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>GroundHeightProbeMod</AssemblyName>
-    <RootNamespace>com.github.lhervier.ksp.groundheightprobe</RootNamespace>
+    <AssemblyName>TerrainPrecisionFixDiagMod</AssemblyName>
+    <RootNamespace>com.github.lhervier.ksp.terrainprecisionfixdiag</RootNamespace>
     <OutputType>Library</OutputType>
     <OutputPath>Output\bin</OutputPath>
     <IntermediateOutputPath>Output\obj</IntermediateOutputPath>
