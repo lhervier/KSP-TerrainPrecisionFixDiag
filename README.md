@@ -55,7 +55,7 @@ Gilly — the smallest place there is to stand on:
 | 6 | +22.422 | +4.318 | −0.047 | −0.192 |
 | **lowest to highest** | **135.5 mm** | **18.1 mm** | **3.9 mm** | **1.2 mm** |
 
-All four were measured on the same **stock install**, with nothing in `GameData` but Squad and
+All four were measured on the same **stock install**, with nothing added to `GameData` but
 this mod. There is no mod conflict to look for, and nothing to uninstall: this is what KSP does on
 its own.
 
