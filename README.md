@@ -30,6 +30,36 @@ The same value in **On rails**, six times over: KSP handed the capsule back in e
 every single time. Never a zero in **Moved**: on all six, the ground turned out to be somewhere else.
 Sometimes lower, and the capsule dropped onto it; sometimes higher, and it got pushed back out.
 
+## The same test, on another world
+
+The same lone capsule, the same six loadings of one save, done again on the Mun:
+
+![Six loadings of the same save, on the Mun](imgs/70-mune-record-again-and-again.png)
+
+| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) |
+|---|---|---|
+| 1 | +22.294 | +1.912 |
+| 2 | +73.424 | −19.405 |
+| 3 | −22.364 | −13.761 |
+| 4 | +82.507 | +3.501 |
+| 5 | −38.344 | +3.570 |
+| 6 | −32.242 | −10.880 |
+| **lowest to highest** | **120.9 mm** | **23.0 mm** |
+
+**On rails** never budged on either world — `600,065,198.711` mm on Kerbin and `204,349,483.258` mm
+on the Mun, the same digits on every single line. So in both places KSP handed the capsule back
+exactly where it had been left, and in both places it still came to rest somewhere else.
+
+Twelve loadings, twelve different resting heights, and not one zero in either **Moved** column.
+
+Both of these were measured on the same **stock install**, with nothing in `GameData` but Squad and
+this mod. There is no mod conflict to look for, and nothing to uninstall: this is what KSP does on
+its own.
+
+The numbers are smaller on the Mun — around five times smaller here — and that is worth following up.
+If you run this on a world nobody has tried yet, the size of what you get is as interesting as the
+fact that you get anything at all. Gilly is the smallest place there is to stand on.
+
 ## Why it matters
 
 Every time you load, it is a coin toss between two outcomes.
