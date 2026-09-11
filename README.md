@@ -212,6 +212,13 @@ reading then mixes that move with the ground's. You can tell from `KSP.log`: a l
 `ground contact! - error. Moving Vessel` naming your capsule, right before `Unpacking`. If you get
 that line, find flatter ground.
 
+⚠️ **And the capsule must not slide.** On a slope, even one gentle enough not to produce that line,
+the capsule can slide slowly downhill, and its height goes down as it slides. On a world with little
+gravity like Gilly, a slope you can barely see is enough, at a fraction of a millimetre per second.
+**Settled** then never stops moving, and **Moved** only tells you how long you waited before pressing
+*Record*. So a spot is only good if both hold: no `Moving Vessel` line in `KSP.log`, and a **Settled**
+value that stops moving once the capsule has come to rest.
+
 **3. Let it settle, and save once.**
 
 ![Creating the save](imgs/20-create-save.png)
