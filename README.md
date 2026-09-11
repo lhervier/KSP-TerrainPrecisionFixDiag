@@ -22,47 +22,82 @@ then the craft was put down in the same place every time and still came to rest 
 the only thing left that can have moved is the ground it landed on.
 
 That is the whole demonstration, and it fits in one screenshot. Here is the same save, on the flat
-grass just off the end of the runway, loaded six times in a row:
+grass just off the end of the runway, loaded six times:
 
-![Six loadings of the same save](imgs/60-record-again-and-again.png)
+![Six loadings of the same save](imgs/tests/10-kerbin.png)
 
-The same value in **On rails**, six times over: KSP handed the capsule back in exactly the same place,
-every single time. Never a zero in **Moved**: on all six, the ground turned out to be somewhere else.
-Sometimes lower, and the capsule dropped onto it; sometimes higher, and it got pushed back out.
+(The bottom line is the loading in progress: after the sixth *Record*, it keeps showing that same
+sixth loading, still live. It is not a seventh one.)
+
+The same value in **On rails**, six times over: KSP handed the capsule back in exactly the same
+place, every single time. Never a zero in **Moved**: on all six, the ground turned out to be
+somewhere else. Sometimes lower, and the capsule dropped onto it; sometimes higher, and it got pushed
+back out.
 
 ## The same test, on other worlds
 
-The same lone capsule, the same six loadings of one save, done again on the Mun:
+The same lone capsule, the same loadings of one save, done again on the Mun, on Minmus and on
+Gilly — the smallest place there is to stand on:
 
-![Six loadings of the same save, on the Mun](imgs/70-mune-record-again-and-again.png)
+![Loadings of the same save, on the Mun](imgs/tests/20-mune.png)
 
-and on Gilly, the smallest place there is to stand on:
+![Loadings of the same save, on Minmus](imgs/tests/30-minmus.png)
 
-![Six loadings of the same save, on Gilly](imgs/80-gilly-record-again-and-again.png)
+![Loadings of the same save, on Gilly](imgs/tests/40-gilly.png)
 
-| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) | Gilly — **Moved** (mm) |
-|---|---|---|---|
-| 1 | +22.294 | +1.912 | −6.215 |
-| 2 | +73.424 | −19.405 | −5.739 |
-| 3 | −22.364 | −13.761 | −7.348 |
-| 4 | +82.507 | +3.501 | −5.739 |
-| 5 | −38.344 | +3.570 | −5.276 |
-| 6 | −32.242 | −10.880 | −5.435 |
-| **lowest to highest** | **120.9 mm** | **23.0 mm** | **2.1 mm** |
+| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) | Minmus — **Moved** (mm) | Gilly — **Moved** (mm) |
+|---|---|---|---|---|
+| 1 | −3.864 | −3.911 | +1.938 | −0.399 |
+| 2 | −20.061 | +4.657 | +0.964 | +0.281 |
+| 3 | +58.552 | −1.833 | +0.306 | −0.878 |
+| 4 | −76.903 | −1.916 | −0.655 | −0.226 |
+| 5 | +25.407 | −13.460 | +3.198 | +0.120 |
+| 6 | +22.422 | +4.318 | −0.047 | −0.192 |
+| **lowest to highest** | **135.5 mm** | **18.1 mm** | **3.9 mm** | **1.2 mm** |
 
-**On rails** never budged on any of the three worlds — `600,065,198.711` mm on Kerbin,
-`204,349,483.258` mm on the Mun and `17,729,505.324` mm on Gilly, the same digits on every single
-line. So everywhere KSP handed the capsule back exactly where it had been left, and everywhere it
-still came to rest at a height that changed from one loading to the next.
-
-All three were measured on the same **stock install**, with nothing in `GameData` but Squad and
+All four were measured on the same **stock install**, with nothing in `GameData` but Squad and
 this mod. There is no mod conflict to look for, and nothing to uninstall: this is what KSP does on
 its own.
 
-The spread shrinks with the size of the world: 120.9 mm at 600 km from the centre of Kerbin,
-23.0 mm at 204 km from the centre of the Mun, 2.1 mm at 17.7 km from the centre of Gilly. The
-smaller the world, the steadier its ground — but on none of the three does it come back twice at
-the same height.
+**On rails** gives the same digits on every line of a series, and you do not have to take the probe's
+word for it. It is exactly the radius of the body plus the altitude the save file records for the
+craft — the `alt` line of its `VESSEL` node in the `.sfs`:
+
+| world | radius | `alt` in the save | radius + `alt` | **On rails** |
+|---|---|---|---|---|
+| Kerbin | 600,000 m | 65.240040919510648 m | 600,065,240.041 mm | 600,065,240.041 mm |
+| Mun | 200,000 m | 4124.8295934277121 m | 204,124,829.593 mm | 204,124,829.593 mm |
+| Minmus | 60,000 m | 0.389444850567088 m | 60,000,389.445 mm | 60,000,389.445 mm |
+| Gilly | 13,000 m | 2908.093310114733 m | 15,908,093.310 mm | 15,908,093.310 mm |
+
+So on every world KSP handed the capsule back exactly where the save says it was, and on every world
+it still came to rest at a height that changed from one loading to the next.
+
+## The same test, with two parts
+
+A craft made of a single part is a special case for KSP (see the protocol below). So the whole
+campaign was run again with a two-part craft: the same capsule, sitting on a small flat fuel tank.
+
+![Two parts, on Kerbin](imgs/tests-2parts/10-kerbin.png)
+
+![Two parts, on the Mun](imgs/tests-2parts/20-Mune.png)
+
+![Two parts, on Minmus](imgs/tests-2parts/30-Minmus.png)
+
+![Two parts, on Gilly](imgs/tests-2parts/40-gilly.png)
+
+| loading | Kerbin — **Moved** (mm) | Mun — **Moved** (mm) | Minmus — **Moved** (mm) | Gilly — **Moved** (mm) |
+|---|---|---|---|---|
+| 1 | −48.444 | +31.739 | +2.345 | −0.401 |
+| 2 | −10.198 | −2.391 | −1.685 | +1.267 |
+| 3 | +55.878 | +25.500 | +0.343 | −0.596 |
+| 4 | −12.615 | −0.359 | +5.605 | +1.699 |
+| 5 | +31.578 | −11.701 | −0.336 | +1.444 |
+| 6 | −74.071 | −6.996 | | +1.031 |
+| **lowest to highest** | **129.9 mm** | **43.4 mm** | **7.3 mm** | **2.3 mm** |
+
+**On rails** again matched the radius of the body plus the `alt` of the save, to the last digit, on
+all four worlds. One part or two, the picture is the same.
 
 ## Why it matters
 
@@ -75,7 +110,7 @@ centimetres above it, so it drops those two centimetres. You never notice, and n
 and the physics engine will not leave two solid things overlapping. It pushes them apart, hard, in
 the only direction available: up. Your craft gets launched.
 
-The table above is six loadings of the same save, and it came out three of each.
+The Kerbin series above is six loadings of the same save, and it came out three of each.
 
 That second case is the symptom everybody already knows. The lander that twitches, hops or flips the
 moment the scene finishes loading. The base that sat perfectly flush yesterday and is buried up to
@@ -125,7 +160,7 @@ freezes it into the table. The table survives scene changes, so the lines pile u
 
 | column | meaning |
 |---|---|
-| **On rails** | read the instant the scene opens, before physics has started — the position from the save, handed back untouched |
+| **On rails** | read the instant the scene opens, before physics has started — the position from the save, handed back untouched: the radius of the body plus the `alt` of the craft in the `.sfs` |
 | **Settled** | the distance right now, running live until you press the button — so, once the craft has come to rest |
 | **Moved** | **Settled** minus **On rails** — how far the craft ended up from where the save put it, this loading. Negative means it went down |
 
@@ -218,6 +253,6 @@ on every line — KSP handing the capsule back exactly where it left it, loading
 **Moved** zero on every line, because the capsule was set down on the ground and has nothing left to
 do.
 
-Half of that holds. **On rails** does not budge by a thousandth of a millimetre, so the save and
+Half of that holds. **On rails** comes back to within a thousandth of a millimetre, so the save and
 reload round trip is exact and the capsule really is put back where it was. **Moved** is not zero on
 a single line, and it is not small either.
