@@ -1,10 +1,47 @@
-# Terrain Precision Fix - Diagnostic Mod
+# Terrain Precision Fix - Diagnostic Mod 1
 
-A measuring instrument for KSP 1.12. It lets you check, on your own install, a claim about the ground
-your craft is parked on:
+A measuring instrument for KSP 1.12, and the first of a small family of them. It lets you check, on
+your own install, a claim about the ground your craft is parked on:
 
-> **The ground is never twice at the same height.** Reload the same save five times, and the terrain
-> your craft rests on is somewhere slightly different each time — a few centimetres apart on Kerbin.
+> **The ground KSP builds under you is never built at the same height twice.** Load the same save five
+> times, and the surface your craft is standing on comes back a little higher or a little lower each
+> time — a few centimetres apart on Kerbin, less on smaller worlds.
+
+## Why it matters
+
+Every time you load, it is a coin toss between two outcomes.
+
+**The ground comes back lower than it was when you saved.** Your craft is now hovering a couple of
+centimetres above it, so it drops those two centimetres. You never notice, and nothing breaks.
+
+**The ground comes back higher than it was when you saved.** Your craft is now *inside* the ground —
+and the physics engine will not leave two solid things overlapping. It pushes them apart, hard, in
+the only direction available: up. Your craft gets launched.
+
+That second case is the symptom everybody already knows. The lander that twitches, hops or flips the
+moment the scene finishes loading. The base that sat perfectly flush yesterday and is buried up to
+the hatches today. The big base that tears itself apart the very first time you load it, and never
+again afterwards. A craft with many parts spread over a wide area gives the coin toss more chances
+to land the wrong way up.
+
+### Disclaimer: it is not the only cause
+
+The ground moving is one cause among several, and this page does not claim it is the only one. Plenty
+of other things move a craft when a scene opens. Two well-known examples, among others:
+
+- **suspensions.** Landing legs and wheels come back fully extended, because that is the only state
+  KSP can restore them to. They then compress under the weight of the craft, and the craft moves
+  while they do.
+- **a craft bent to fit the ground.** While you play, physics twists the joints between parts so the
+  craft settles onto the shape of the ground beneath it. That twisting is not saved. On loading, the
+  craft comes back in its original, unbent shape — and if the ground is not flat, part of it really
+  *is* underground, with no measurement error involved.
+
+Both of those are avoidable, and that is exactly why the test below uses a single capsule with no
+legs and no wheels, on flat ground: it takes them out of the picture, along with anything else that
+needs a suspension, several parts, or a slope to happen.
+
+## This mod's demonstration
 
 You cannot look at the ground and see this: the surface you walk on and the surface you see are one
 and the same, so the picture shifts along with it. What you can see is what rests *on* the ground. So
@@ -13,13 +50,26 @@ two values for every loading:
 
 - **on rails**, the instant the scene opens, before physics has run — the position the save gives
   back;
-- **settled**, once the craft has come to rest on the ground.
+- **settled**, once the craft has come to rest on the ground (every frame).
+
+Both are the same measurement, taken between the origin of the root part of the craft — the very
+point KSP writes to the save and hands back on loading — and the centre of the body, in double
+precision from end to end:
+
+```csharp
+private static double DistanceToCentreMm(Vessel vessel)
+{
+    // Vector3d on both sides, deliberately: reading a few millimetres out of six hundred
+    // kilometres leaves no room for anything short of double precision.
+    Vector3d toCentre = (Vector3d)vessel.vesselTransform.position - vessel.mainBody.position;
+    return toCentre.magnitude * 1000.0;
+}
+```
 
 Reload the same save several times, then read the two columns against each other. The first one tells
-you whether KSP puts the craft back where it was: as long as it does not vary, the save and reload
-round trip is exact and nothing about the craft itself has changed. If the second one varies anyway,
-then the craft was put down in the same place every time and still came to rest somewhere else — and
-the only thing left that can have moved is the ground it landed on.
+you whether KSP puts the craft back where it was; the second one tells you where it actually came to
+rest. As long as neither of them varies from one loading to the next, the round trip is exact and
+nothing about the craft itself has changed. One of them does vary, though — spoiler: the second one.
 
 That is the whole demonstration, and it fits in one screenshot. Here is the same save, on the flat
 grass just off the end of the runway, loaded six times:
@@ -101,41 +151,20 @@ campaign was run again with a two-part craft: the same capsule, sitting on a sma
 **On rails** again matched the radius of the body plus the `alt` of the save, to the last digit, on
 all four worlds. One part or two, the picture is the same.
 
-## Why it matters
+## What this instrument shows, and what it does not
 
-Every time you load, it is a coin toss between two outcomes.
+Every table above measures the **craft**: a craft set down on the ground does not come back to rest
+where the save left it, one loading to the next. That is what the instrument sees, and that is where
+it stops. It does not, on its own, name what moved. A ground rebuilt a little higher or a little lower
+on every loading accounts for the figures — but so would a perfectly steady ground with the craft set
+down beside it, off by a rounding error shared by the placement and by the **On rails** reading, where
+it would cancel out. Both fill the same table.
 
-**The ground comes back lower than it was when you saved.** Your craft is now hovering a couple of
-centimetres above it, so it drops those two centimetres. You never notice, and nothing breaks.
-
-**The ground comes back higher than it was when you saved.** Your craft is now *inside* the ground —
-and the physics engine will not leave two solid things overlapping. It pushes them apart, hard, in
-the only direction available: up. Your craft gets launched.
-
-The Kerbin series above is six loadings of the same save, and it came out three of each.
-
-That second case is the symptom everybody already knows. The lander that twitches, hops or flips the
-moment the scene finishes loading. The base that sat perfectly flush yesterday and is buried up to
-the hatches today. The big base that tears itself apart the very first time you load it, and never
-again afterwards. A craft with many parts spread over a wide area gives the coin toss more chances
-to land the wrong way up.
-
-### It is not the only cause
-
-The ground moving is one cause among several, and this page does not claim it is the only one. Plenty
-of other things move a craft when a scene opens. Two well-known examples, among others:
-
-- **suspensions.** Landing legs and wheels come back fully extended, because that is the only state
-  KSP can restore them to. They then compress under the weight of the craft, and the craft moves
-  while they do.
-- **a craft bent to fit the ground.** While you play, physics twists the joints between parts so the
-  craft settles onto the shape of the ground beneath it. That twisting is not saved. On loading, the
-  craft comes back in its original, unbent shape — and if the ground is not flat, part of it really
-  *is* underground, with no measurement error involved.
-
-Both of those are avoidable, and that is exactly why the test below uses a single capsule with no
-legs and no wheels, on flat ground: it takes them out of the picture, along with anything else that
-needs a suspension, several parts, or a slope to happen.
+A second instrument,
+[Terrain Precision Fix Diag 2](https://github.com/lhervier/KSP-TerrainPrecisionFixDiag2), tells the
+two apart: it measures **the ground** itself — the height of the surface your craft is touching,
+against the height the game computes for that same spot — with no craft in the picture at all. You do
+not need it to follow this page.
 
 ## Get it
 
@@ -162,24 +191,25 @@ loading in progress**: its numbers move as you watch, it carries `--` where the 
 number, and the *Record* button at the end of it freezes it into the table. The table survives scene
 changes, so the lines pile up as you reload.
 
+![Mod's Window](imgs/window.png)
+
 | column | meaning |
 |---|---|
-| **On rails** | read the instant the scene opens, before physics has started — the position from the save, handed back untouched: the radius of the body plus the `alt` of the craft in the `.sfs` |
+| **On rails** | read the instant the scene opens, before physics has started — the position the game gives to the craft at startup |
 | **Settled** | the distance right now, running live until you press the button — so, once the craft has come to rest |
-| **Moved** | **Settled** minus **On rails** — how far the craft ended up from where the save put it, this loading. Negative means it went down |
+| **Moved** | **Settled** minus **On rails** — how far the craft ended up from the position it was given, this loading. Negative means it went down |
 
-**Moved** is the figure to look at, and it should be zero. The save puts the craft down at a given
-height; if the ground were where it was when you saved, the craft would already be resting on it and
-would not budge. Every millimetre in that column is ground that was not where it was left.
+**Moved** is the figure to look at, and it should be zero. The craft was at rest on the ground when
+you saved it; handed back at that very height, it has no reason to move at all.
 
 Its sign says which of the two outcomes above you got — and how much the figure is worth.
 
-**Negative** — the ground came back lower, and the craft dropped onto it. That is a clean
-measurement: the figure is how far below the saved height the ground turned out to be.
+**Negative** — the craft came back above the surface it ends up resting on, and dropped onto it. That
+is a clean measurement: the figure is the gap it fell through.
 
-**Positive** — the ground came back higher, the craft was inside it, and the physics pushed it back
-out. Still evidence that the ground was somewhere else, but the figure itself is spoiled: it measures
-how hard the craft was shoved, not how deep it was buried.
+**Positive** — the craft came back below that surface, so it started off inside it and the physics
+pushed it back out. Still a craft that did not stay where it was put, but the figure itself is
+spoiled: it measures how hard it was shoved, not how deep it started.
 
 Watch the live line as the craft settles and you see the demonstration play out: while the craft is
 still on rails the two distances are equal and **Moved** reads `0.000`, and it is the first step of
