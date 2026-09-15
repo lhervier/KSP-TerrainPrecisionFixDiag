@@ -1,5 +1,11 @@
 # Terrain Precision Fix - Diagnostic Mod 1
 
+**How this was made.** Written with Claude, Anthropic's AI assistant, and reviewed line by line by a
+human — me. I am saying so before anything else, because contributions made with an AI deserve a closer
+look than others, and because some people would rather stop reading here. This mod measures and fixes
+nothing, so what there is to check is the reading itself: the source is public, and the protocol below
+runs on a stock install, on your own craft, against the figures on this page.
+
 A measuring instrument for KSP 1.12, and the first of a small family of them. It lets you check, on
 your own install, a claim about the ground your craft is parked on:
 
