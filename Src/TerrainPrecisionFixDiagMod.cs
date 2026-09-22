@@ -4,10 +4,11 @@ using UnityEngine;
 namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 {
     /// <summary>
-    /// Position recorder. Follows two distances from the centre of the body, in millimetres: the one the
-    /// active vessel starts the scene at, taken once at loading, and the one it is at right now. The
-    /// player freezes the pair into a table whenever it suits them, and the table survives scene changes,
-    /// so reloading the same save several times builds it up line by line.
+    /// Position recorder. Follows two distances from the centre of the body, in millimetres: the one a
+    /// craft is held at while the game runs it on rails, and the one it is at right now. It reads the
+    /// craft being flown, or the target when one is set on another craft. The player freezes the pair
+    /// into a table whenever it suits them, and the table survives scene changes, so reloading the same
+    /// save several times builds it up line by line.
     /// </summary>
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class TerrainPrecisionFixDiagMod : MonoBehaviour
@@ -15,13 +16,50 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
         private static readonly List<Reading> READINGS = new List<Reading>();
 
         // The line in progress, the only one that still moves. Its OnRailsMm is read while the vessel is
-        // still on rails, before any physics step has run: that is the control column, and it should not
-        // move from one loading to the next, being the saved value handed back untouched.
+        // still on rails, before any physics step has run on it: that is the control column, and it
+        // should not move from one loading to the next, being the saved value handed back untouched.
         private readonly Reading live = new Reading();
+
+        // The vessel the readings are about, and what to tell the player about that choice. Refreshed
+        // by Update, displayed by OnGUI.
+        private Vessel subject;
+        private string subjectLabel = "";
+
+        // CAMPAIGN ONLY, to be removed before publishing: how many times the game has moved the origin
+        // of the world since the scene opened, and since the last recorded line. A shift is the moment
+        // the game re-places the ground, so a line taken without one in between proves nothing.
+        private int originShifts;
+        private int originShiftsSinceRecord;
+
+        private void Awake()
+        {
+            // An instance method: EventData refuses a static handler.
+            GameEvents.onFloatingOriginShift.Add(OnOriginShift);
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.onFloatingOriginShift.Remove(OnOriginShift);
+        }
+
+        private void OnOriginShift(Vector3d offset, Vector3d nonFrame)
+        {
+            originShifts++;
+            originShiftsSinceRecord++;
+        }
 
         private void Update()
         {
-            Vessel vessel = FlightGlobals.ActiveVessel;
+            Vessel vessel = SelectSubject(out subjectLabel);
+
+            // The control column belongs to one craft: changing subject starts it over, rather than
+            // facing a distance taken on one craft with a distance taken on another.
+            if (vessel != subject)
+            {
+                subject = vessel;
+                live.OnRailsMm = double.NaN;
+            }
+
             if (vessel == null || vessel.mainBody == null)
             {
                 live.SettledMm = double.NaN;
@@ -29,7 +67,8 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
             }
             live.SettledMm = DistanceToCentreMm(vessel);
 
-            // Still packed means no physics step has run yet, so the vessel is where the save put it.
+            // Packed means no physics step runs on it, so it sits where the game holds it: the saved
+            // state when the scene has just opened, and otherwise where it last came to rest.
             if (vessel.packed)
             {
                 live.OnRailsMm = live.SettledMm;
@@ -37,9 +76,40 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
         }
 
         /// <summary>
+        /// The vessel the readings are about: the target when one is set on a vessel, the craft being
+        /// flown otherwise. Null when that vessel cannot be read. <paramref name="label"/> receives what
+        /// to tell the player about the choice, including why nothing can be read.
+        /// </summary>
+        private static Vessel SelectSubject(out string label)
+        {
+            ITargetable target = (FlightGlobals.fetch == null) ? null : FlightGlobals.fetch.VesselTarget;
+            if (target != null)
+            {
+                // A target is anything targetable: a planet, a docking port, a craft. GetVessel gives
+                // the vessel behind it, and null for what is not one -- targeting a planet leaves the
+                // readings on the craft being flown rather than emptying the window.
+                Vessel targetVessel = target.GetVessel();
+                if (targetVessel != null)
+                {
+                    if (!targetVessel.loaded)
+                    {
+                        label = "Target: " + targetVessel.vesselName + " -- too far away to read";
+                        return null;
+                    }
+                    label = "Target: " + targetVessel.vesselName;
+                    return targetVessel;
+                }
+            }
+
+            Vessel active = FlightGlobals.ActiveVessel;
+            label = (active == null) ? "Nothing to read" : "Craft you are flying: " + active.vesselName;
+            return active;
+        }
+
+        /// <summary>
         /// Distance from the origin of the root part of the vessel to the centre of the body it orbits,
-        /// in millimetres. That origin is the point KSP saves and restores, so once the vessel is loaded
-        /// and still on rails, this distance is exactly the body radius plus the saved altitude.
+        /// in millimetres. That origin is the point KSP saves and restores, so while the vessel is on
+        /// rails, this distance is exactly the body radius plus the altitude the game holds it at.
         /// </summary>
         private static double DistanceToCentreMm(Vessel vessel)
         {
@@ -74,6 +144,11 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
         private void DrawWindow(int id)
         {
             GUILayout.BeginVertical();
+
+            // Which craft the numbers are about. Without it the window reads the same whether it follows
+            // the craft being flown or the one being approached.
+            GUILayout.Label(subjectLabel);
+            GUILayout.Space(4f);
 
             // Header
             GUILayout.BeginHorizontal();
@@ -122,9 +197,14 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
                             SettledMm = live.SettledMm
                         }
                     );
+                    originShiftsSinceRecord = 0;
                 }
             }
             GUILayout.EndHorizontal();
+
+            // CAMPAIGN ONLY: the context every line needs to mean anything.
+            GUILayout.Space(4f);
+            GUILayout.Label(OriginLine());
 
             // Clear table button
             GUILayout.Space(10f);
@@ -135,6 +215,18 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 
             GUILayout.EndVertical();
             GUI.DragWindow();
+        }
+
+        /// <summary>CAMPAIGN ONLY: how far the craft being flown has drifted from the origin of the
+        /// world, and how many times that origin has been reset.</summary>
+        private string OriginLine()
+        {
+            Vessel active = FlightGlobals.ActiveVessel;
+            string distance = (active == null)
+                ? "?"
+                : ((Vector3d)active.vesselTransform.position).magnitude.ToString("N1");
+            return "You are " + distance + " m from the origin of the world -- " + originShifts
+                + " shift(s) so far, " + originShiftsSinceRecord + " since the last record";
         }
 
         /// <summary>Draws the four columns of one line. The caller owns the surrounding horizontal group,
