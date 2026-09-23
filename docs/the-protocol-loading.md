@@ -1,6 +1,11 @@
-# The protocol
+# The protocol: loading the same save
 
-Part of [Terrain Precision Fix Diag 1](../README.md): how to take the reading yourself, step by step. The columns it fills are in [The window](the-window.md).
+Part of [Terrain Precision Fix Diag 1](../README.md): how to take the reading on a craft that comes
+back with a save, step by step. The columns it fills are in [The window](the-window.md), and what it
+reads is in [The measurements: loading the same save](the-measurements-loading.md).
+
+The other protocol takes the same reading on a craft that never comes back with a save:
+[The protocol: coming back to a craft you left](the-protocol-approach.md).
 
 **1. Launch a capsule on its own** — no anchor, no wheels, no landing legs, nothing attached.
 

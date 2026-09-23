@@ -1,6 +1,9 @@
-# The measurements
+# The measurements: loading the same save
 
-Part of [Terrain Precision Fix Diag 1](../README.md): the readings taken with this instrument, on four worlds, on a stock install.
+Part of [Terrain Precision Fix Diag 1](../README.md): the readings taken with
+[the loading protocol](the-protocol-loading.md), on four worlds, on a stock install. The other series,
+taken without loading anything, is in
+[The measurements: coming back to a craft you left](the-measurements-approach.md).
 
 Every reading on this page was taken on a **stock install**, with nothing added to `GameData` but
 this mod. There is no mod conflict to look for and nothing to uninstall: this is what KSP does on its
@@ -63,7 +66,7 @@ it still came to rest at a height that changed from one loading to the next.
 
 ## The same craft, with two parts
 
-A craft made of a single part is a special case for KSP (see [the protocol](the-protocol.md)). So the
+A craft made of a single part is a special case for KSP (see [the protocol](the-protocol-loading.md)). So the
 whole campaign was run again with a two-part craft: the same capsule, sitting on a small flat fuel tank.
 
 ![Two parts, on Kerbin](../imgs/tests-2parts/10-kerbin.png)

@@ -1,8 +1,8 @@
 # What this instrument shows, and what it does not
 
-Part of [Terrain Precision Fix Diag 1](../README.md): what [the measurements](the-measurements.md) establish, and what they leave open.
+Part of [Terrain Precision Fix Diag 1](../README.md): what [the measurements](the-measurements-loading.md) establish, and what they leave open.
 
-Every table under [the measurements](the-measurements.md) measures the **craft**: a craft set down
+Every table under [the measurements](the-measurements-loading.md) measures the **craft**: a craft set down
 on the ground does not come back to rest where the save left it, one loading to the next. That is
 what the instrument sees, and that is where it stops. It does not, on its own, name what moved. A
 ground rebuilt a little higher or a little lower on every loading accounts for the figures — but so

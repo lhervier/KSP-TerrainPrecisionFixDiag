@@ -1,14 +1,14 @@
 # This mod's demonstration
 
-Part of [Terrain Precision Fix Diag 1](../README.md): what the mod reads at every loading, and why those two numbers are enough.
+Part of [Terrain Precision Fix Diag 1](../README.md): what the mod reads, and why those two numbers are enough.
 
 You cannot look at the ground and see this: the surface you walk on and the surface you see are one
 and the same, so the picture shifts along with it. What you can see is what rests *on* the ground. So
 the mod measures the distance from your craft to the centre of the body, in millimetres, and records
-two values for every loading:
+two values:
 
-- **on rails**, the instant the scene opens, before physics has run — the position the save gives
-  back;
+- **on rails**, while the game is still holding the craft at the position it was given, before
+  physics has run on it — at the opening of a scene, the position the save gives back;
 - **settled**, once the craft has come to rest on the ground (every frame).
 
 Both are the same measurement, taken between the origin of the root part of the craft — the very

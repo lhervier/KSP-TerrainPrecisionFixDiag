@@ -38,6 +38,15 @@ the hatches today. The big base that tears itself apart the very first time you 
 again afterwards. A craft with many parts spread over a wide area gives the coin toss more chances
 to land the wrong way up.
 
+**Loading is not the only time the coin is tossed.** A landed craft you fly towards is loaded long
+before you reach it, but held still at the position it was left at; its physics only starts once you
+are within 200 m. The ground under it was not built when that position was recorded, so the same toss
+happens there. From 200 m away you see much less of it — and it does just as much damage.
+
+Both can be measured with this mod, and each has its own protocol: loading the same save over and
+over, which is the easiest to repeat, and driving away from a parked craft and coming back, which
+never loads anything at all.
+
 ### Disclaimer: it is not the only cause
 
 The ground moving is one cause among several, and this page does not claim it is the only one. Plenty
@@ -51,7 +60,7 @@ of other things move a craft when a scene opens. Two well-known examples, among 
   craft comes back in its original, unbent shape — and if the ground is not flat, part of it really
   *is* underground, with no measurement error involved.
 
-Both of those are avoidable, and that is exactly why [the protocol below](docs/the-protocol.md) uses a
+Both of those are avoidable, and that is exactly why [the first protocol below](docs/the-protocol-loading.md) uses a
 single capsule with no legs and no wheels, on flat ground: it takes them out of the picture, along with anything else that
 needs a suspension, several parts, or a slope to happen.
 
@@ -60,9 +69,9 @@ needs a suspension, several parts, or a slope to happen.
 You cannot look at the ground and see this: the surface you walk on and the surface you see are one and
 the same, so the picture shifts along with it. What you can see is what rests *on* the ground. So the
 mod measures the distance from the root part of your craft to the centre of the body, in millimetres and
-in double precision from end to end, and records it twice at every loading: **on rails**, the instant
-the scene opens, before physics has run — the position the save gives back — and **settled**, once the
-craft has come to rest. Reload the same save several times, then read the two columns against each
+in double precision from end to end, and records it twice: **on rails**, while the game is still
+holding the craft at the position it was given, before physics has run on it — at the opening of a
+scene, the position the save gives back — and **settled**, once the craft has come to rest. Reload the same save several times, then read the two columns against each
 other. As long as neither of them varies from one loading to the next, the round trip is exact and
 nothing about the craft itself has changed. One of them does vary.
 
@@ -70,35 +79,63 @@ nothing about the craft itself has changed. One of them does vary.
 
 ## The window
 
-In flight, a window shows a table with one line per loading, in millimetres: **On rails**, **Settled**,
-and **Moved**, the difference between the two. The bottom line is the loading in progress, its numbers
-running live until the *Record* button at the end of it freezes it into the table. **Moved** is the
-figure to look at, and it should be zero: the craft was at rest on the ground when you saved it, and was
-handed back at that very height. Its sign tells you how much the figure is worth — a craft that fell
+In flight, a window shows a table with one line per reading, in millimetres: **On rails**, **Settled**,
+and **Moved**, the difference between the two. The bottom line is the reading in progress, its numbers
+running live until the *Record* button at the end of it freezes it into the table. They are about the
+craft you are flying, or about your target when you have set one on another craft — which is what lets
+the second protocol below follow a parked craft while you drive away from it. **Moved** is the
+figure to look at, and it should be zero: the craft was at rest on the ground when the game took it in
+hand, and was handed back at that very height. Its sign tells you how much the figure is worth — a craft that fell
 onto the surface gives a clean reading, one that was pushed back out of it does not.
 
 **→ Full chapter: [The window](docs/the-window.md)**
 
 ## The protocol
 
-Launch a lone capsule — no anchor, no wheels, no landing legs — and move it off onto bare ground that is
-flat, away from the runway and the launchpad, which are structures rather than ground. Let it settle,
-save once, then load that same save five or six times, pressing *Record* each time the live line has
-stopped moving, and never saving again until the campaign is over. Then read the table.
+Two protocols, one for each of the two moments the ground is built under a craft. Both fill the same
+window, and both come with the craft and the save they were written for.
 
-**→ Full chapter: [The protocol](docs/the-protocol.md)**
+**Loading the same save.** A lone capsule — no anchor, no wheels, no landing legs — set down on bare
+flat ground, away from the runway and the launchpad, which are structures rather than ground. Let it
+settle, save once, then load that same save five or six times, pressing *Record* each time the live
+line has stopped moving.
+
+**→ Full chapter: [The protocol: loading the same save](docs/the-protocol-loading.md)**
+
+**Coming back to a craft you left.** This one loads nothing at all. A craft stays parked on the same
+kind of ground while you drive a rover away from it, past 2500 m, where the game unloads it — then
+back to within 200 m, where its physics starts again. Five records per round trip, and as many round
+trips as you like, without ever changing scene.
+
+**→ Full chapter: [The protocol: coming back to a craft you left](docs/the-protocol-approach.md)**
 
 ## The measurements
 
-Every reading was taken on a **stock install**, with nothing added to `GameData` but this mod: the same
-save loaded six times on Kerbin, on the Mun, on Minmus and on Gilly, with a lone capsule, then the whole
-campaign again with a two-part craft. **On rails** gives the same digits on every line of a series — to
-the last digit, the radius of the body plus the `alt` the save records for the craft — so KSP hands the
-craft back exactly where it was every time. The height it then comes to rest at is never the same twice:
-lowest to highest, 135.5 mm on Kerbin, 18.1 mm on the Mun, 3.9 mm on Minmus, 1.2 mm on Gilly. The same
-campaign run in an install with KSP Community Fixes gives spreads of the same order.
+Two series, one per protocol, and they were not taken in the same install. The first was taken with
+nothing in `GameData` but this mod, then run a second time in an install with
+[KSP Community Fixes](https://github.com/KSPModdingLibs/KSPCommunityFixes), which changes nothing to
+it. The second was taken in that kind of install — Harmony, ModuleManager and KSP Community Fixes,
+what most players run — with this mod added, and it has no bare-install twin.
 
-**→ Full chapter: [The measurements](docs/the-measurements.md)**
+In both, **On rails** — the height the game hands the craft back at — barely moves: the same digits
+down to the last one from one loading to the next in the first series, six thousandths of a
+millimetre at most across a round trip in the second. So the craft itself is put back where it was.
+What it then comes to rest on is never quite where it was.
+
+**Loading the same save** ([the protocol in full](docs/the-protocol-loading.md)). The same save
+loaded six times on Kerbin, on the Mun, on Minmus and on Gilly, with a lone capsule, then the whole
+campaign again with a two-part craft. The height the craft comes to rest at is never the same twice:
+lowest to highest, 135.5 mm on Kerbin, 18.1 mm on the Mun, 3.9 mm on Minmus, 1.2 mm on Gilly.
+
+**→ Full chapter: [The measurements: loading the same save](docs/the-measurements-loading.md)**
+
+**Coming back to a craft you left** ([the protocol in full](docs/the-protocol-approach.md)). Six
+round trips in a row on Kerbin, in a single flight, with nothing loaded at any point: the craft comes
+to rest 7.5 to 19.2 mm from the height it was handed back at, upwards as often as downwards, and a
+different amount every time.
+
+**→ Full chapter: [The measurements: coming back to a craft you left](docs/the-measurements-approach.md)**
+
 
 ## What this instrument shows, and what it does not
 
