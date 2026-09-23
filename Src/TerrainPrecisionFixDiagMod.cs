@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,40 +16,63 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
     {
         private static readonly List<Reading> READINGS = new List<Reading>();
 
-        // The line in progress, the only one that still moves. Its OnRailsMm is read while the vessel is
-        // still on rails, before any physics step has run on it: that is the control column, and it
-        // should not move from one loading to the next, being the saved value handed back untouched.
+        // The line in progress, the only one that still moves. Its OnRailsMm is the last distance the
+        // subject was held at while on rails: that is the control column, and it should not move from
+        // one loading to the next, being the saved value handed back untouched.
         private readonly Reading live = new Reading();
 
-        // The vessel the readings are about, and what to tell the player about that choice. Refreshed
-        // by Update, displayed by OnGUI.
-        private Vessel subject;
+        // What to tell the player about the craft the readings are about. Refreshed by Update,
+        // displayed by OnGUI.
         private string subjectLabel = "";
+
+        // The last distance every loaded craft was held at while on rails, by vessel id. Kept for all
+        // of them rather than for the subject alone: a craft is only on rails for a while, and the
+        // player may well pick it as a target after that window has closed -- at the opening of a
+        // scene, the game restores a saved target several dozen frames in, by which time a landed
+        // craft has been handed to physics.
+        private readonly Dictionary<Guid, double> onRailsByVessel = new Dictionary<Guid, double>();
 
         private void Update()
         {
+            TrackOnRailsDistances();
+
             Vessel vessel = SelectSubject(out subjectLabel);
-
-            // The control column belongs to one craft: changing subject starts it over, rather than
-            // facing a distance taken on one craft with a distance taken on another.
-            if (vessel != subject)
-            {
-                subject = vessel;
-                live.OnRailsMm = double.NaN;
-            }
-
             if (vessel == null || vessel.mainBody == null)
             {
+                live.OnRailsMm = double.NaN;
                 live.SettledMm = double.NaN;
                 return;
             }
-            live.SettledMm = DistanceToCentreMm(vessel);
 
-            // Packed means no physics step runs on it, so it sits where the game holds it: the saved
-            // state when the scene has just opened, and otherwise where it last came to rest.
-            if (vessel.packed)
+            live.SettledMm = DistanceToCentreMm(vessel);
+            double onRails;
+            live.OnRailsMm = onRailsByVessel.TryGetValue(vessel.id, out onRails) ? onRails : double.NaN;
+        }
+
+        /// <summary>
+        /// Follows, for every loaded craft, the distance the game holds it at while it is on rails.
+        /// </summary>
+        private void TrackOnRailsDistances()
+        {
+            List<Vessel> loaded = (FlightGlobals.fetch == null) ? null : FlightGlobals.VesselsLoaded;
+            if (loaded == null)
             {
-                live.OnRailsMm = live.SettledMm;
+                return;
+            }
+
+            for (int i = 0; i < loaded.Count; i++)
+            {
+                Vessel vessel = loaded[i];
+
+                // Packed means no physics step runs on it, so it sits where the game holds it: the
+                // saved state when the scene has just opened, and otherwise where it last came to
+                // rest. A craft that leaves and comes back is read again on its way in, since the
+                // game loads it at 2250 m and only hands it to physics at 200 m: no distance kept
+                // here can outlive the trip that made it stale.
+                if (vessel != null && vessel.mainBody != null && vessel.packed)
+                {
+                    onRailsByVessel[vessel.id] = DistanceToCentreMm(vessel);
+                }
             }
         }
 
