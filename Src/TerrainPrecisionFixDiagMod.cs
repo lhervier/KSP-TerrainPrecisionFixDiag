@@ -188,17 +188,17 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
             );
             if (GUILayout.Button("Record", GUILayout.Width(Constants.COL_BUTTON)))
             {
-                if (!double.IsNaN(live.SettledMm))
-                {
-                    READINGS.Add(
-                        new Reading
-                        {
-                            OnRailsMm = live.OnRailsMm,
-                            SettledMm = live.SettledMm
-                        }
-                    );
-                    originShiftsSinceRecord = 0;
-                }
+                // A line with nothing to read is worth freezing too: recorded while the vessel is out
+                // of reach, it marks in the table that the two lines around it are separated by a real
+                // trip away, and not by two readings taken where the player stood.
+                READINGS.Add(
+                    new Reading
+                    {
+                        OnRailsMm = live.OnRailsMm,
+                        SettledMm = live.SettledMm
+                    }
+                );
+                originShiftsSinceRecord = 0;
             }
             GUILayout.EndHorizontal();
 
