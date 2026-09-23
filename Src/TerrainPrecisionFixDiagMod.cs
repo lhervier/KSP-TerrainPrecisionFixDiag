@@ -25,29 +25,6 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
         private Vessel subject;
         private string subjectLabel = "";
 
-        // CAMPAIGN ONLY, to be removed before publishing: how many times the game has moved the origin
-        // of the world since the scene opened, and since the last recorded line. A shift is the moment
-        // the game re-places the ground, so a line taken without one in between proves nothing.
-        private int originShifts;
-        private int originShiftsSinceRecord;
-
-        private void Awake()
-        {
-            // An instance method: EventData refuses a static handler.
-            GameEvents.onFloatingOriginShift.Add(OnOriginShift);
-        }
-
-        private void OnDestroy()
-        {
-            GameEvents.onFloatingOriginShift.Remove(OnOriginShift);
-        }
-
-        private void OnOriginShift(Vector3d offset, Vector3d nonFrame)
-        {
-            originShifts++;
-            originShiftsSinceRecord++;
-        }
-
         private void Update()
         {
             Vessel vessel = SelectSubject(out subjectLabel);
@@ -198,13 +175,8 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
                         SettledMm = live.SettledMm
                     }
                 );
-                originShiftsSinceRecord = 0;
             }
             GUILayout.EndHorizontal();
-
-            // CAMPAIGN ONLY: the context every line needs to mean anything.
-            GUILayout.Space(4f);
-            GUILayout.Label(OriginLine());
 
             // Clear table button
             GUILayout.Space(10f);
@@ -215,18 +187,6 @@ namespace com.github.lhervier.ksp.terrainprecisionfixdiag
 
             GUILayout.EndVertical();
             GUI.DragWindow();
-        }
-
-        /// <summary>CAMPAIGN ONLY: how far the craft being flown has drifted from the origin of the
-        /// world, and how many times that origin has been reset.</summary>
-        private string OriginLine()
-        {
-            Vessel active = FlightGlobals.ActiveVessel;
-            string distance = (active == null)
-                ? "?"
-                : ((Vector3d)active.vesselTransform.position).magnitude.ToString("N1");
-            return "You are " + distance + " m from the origin of the world -- " + originShifts
-                + " shift(s) so far, " + originShiftsSinceRecord + " since the last record";
         }
 
         /// <summary>Draws the four columns of one line. The caller owns the surrounding horizontal group,
