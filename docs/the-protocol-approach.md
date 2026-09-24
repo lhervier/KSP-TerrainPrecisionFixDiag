@@ -14,11 +14,11 @@ back, and the window follows the parked craft throughout.
 ## The save
 
 [`approach-kerbin.sfs`](../diag/approach-kerbin.sfs), a sandbox game of KSP 1.12.5. Copy it into the
-folder of a sandbox game and load it from that game. It holds two craft, a few metres apart on the
-flat grass west of the KSC:
+folder of a sandbox game and load it from that game. It holds two craft, 26 m apart on the flat grass
+west of the KSC:
 
 - **the craft the readings are about**: a Mk1 command pod on an FL-T100 tank, landed at latitude
-  −0.0593°, longitude −74.7269°. It is already the target of the other one, so the window follows it
+  −0.0610°, longitude −74.7395°. It is already the target of the other one, so the window follows it
   from the moment the scene opens, and you have nothing to set;
 - **the rover you drive**: a crewed rover on four wheels, with batteries and solar panels to recharge
   them.
@@ -45,28 +45,28 @@ Then, per round trip, five records.
 
 **1. Next to it.** Press *Record* without moving.
 
-![The rover beside the parked craft, at the opening of the scene](../imgs/approach-protocol/00-load-the-save.png)
+![The rover beside the parked craft, at the opening of the scene](../imgs/protocols/approach/00-load-the-save.png)
 
 **2. A few hundred metres away.** Drive off, past 350 m, and press *Record*.
 
-![The rover stopped 717 m from the craft](../imgs/approach-protocol/10-further-600m.png)
+![The rover stopped 717 m from the craft](../imgs/protocols/approach/10-further-600m.png)
 
 **3. Out of range.** Keep going past 2500 m, until the line reads `too far away to read`, and press
 *Record* on the empty line.
 
-![The rover 2.6 km away, the window reading "too far away to read"](../imgs/approach-protocol/20-further-2.5km.png)
+![The rover 2.6 km away, the window reading "too far away to read"](../imgs/protocols/approach/20-further-2.5km.png)
 
 **4. Turn round.** Stop beyond 3 km, turn, and drive back. Nothing to record here.
 
-![The rover stopped 3.0 km away](../imgs/approach-protocol/30-stop-at-3km.png)
+![The rover stopped 3.0 km away](../imgs/protocols/approach/30-stop-at-3km.png)
 
 **5. Back in range.** Once the numbers come back, press *Record*.
 
-![The rover back at 2.2 km, the numbers showing again](../imgs/approach-protocol/40-back-to-2250m.png)
+![The rover back at 2.2 km, the numbers showing again](../imgs/protocols/approach/40-back-to-2250m.png)
 
 **6. Back beside it.** Come within 200 m, give it three to five seconds to settle, and press *Record*.
 
-![The rover back at 144 m from the craft](../imgs/approach-protocol/50-less-than-200m.png)
+![The rover back at 144 m from the craft](../imgs/protocols/approach/50-less-than-200m.png)
 
 ## What the five lines are worth
 

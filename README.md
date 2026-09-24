@@ -92,8 +92,8 @@ onto the surface gives a clean reading, one that was pushed back out of it does 
 
 ## The protocol
 
-Two protocols, one for each of the two moments the ground is built under a craft. Both fill the same
-window, and both come with the craft and the save they were written for.
+Three protocols, one for each way the game can set a craft down on the ground. All three fill the
+same window, and all three come with the craft and the save they were written for.
 
 **Loading the same save.** A lone capsule — no anchor, no wheels, no landing legs — set down on bare
 flat ground, away from the runway and the launchpad, which are structures rather than ground. Let it
@@ -109,23 +109,27 @@ trips as you like, without ever changing scene.
 
 **→ Full chapter: [The protocol: coming back to a craft you left](docs/the-protocol-approach.md)**
 
+**Switching to a craft far away.** Two craft landed 1.97 km apart. Load the save while flying one,
+press *Record*, switch to the other with the game's own key, and press *Record* again. Then load the
+same save again, six times in all.
+
+**→ Full chapter: [The protocol: switching to a craft far away](docs/the-protocol-switching.md)**
+
 ## The measurements
 
-Two series, one per protocol, and they were not taken in the same install. The first was taken with
-nothing in `GameData` but this mod, then run a second time in an install with
-[KSP Community Fixes](https://github.com/KSPModdingLibs/KSPCommunityFixes), which changes nothing to
-it. The second was taken in that kind of install — Harmony, ModuleManager and KSP Community Fixes,
-what most players run — with this mod added, and it has no bare-install twin.
+Three series, one per protocol, all taken in the same install: Harmony, ModuleManager and
+[KSP Community Fixes](https://github.com/KSPModdingLibs/KSPCommunityFixes) — what most players run —
+with this mod added.
 
-In both, **On rails** — the height the game hands the craft back at — barely moves: the same digits
-down to the last one from one loading to the next in the first series, six thousandths of a
-millimetre at most across a round trip in the second. So the craft itself is put back where it was.
+In all three, **On rails** — the height the game hands the craft back at — barely moves: three
+thousandths of a millimetre at most from one loading to the next in the first series, six thousandths
+across a round trip in the second, two thousandths across six loadings in the third. So the craft itself is put back where it was.
 What it then comes to rest on is never quite where it was.
 
 **Loading the same save** ([the protocol in full](docs/the-protocol-loading.md)). The same save
 loaded six times on Kerbin, on the Mun, on Minmus and on Gilly, with a lone capsule, then the whole
 campaign again with a two-part craft. The height the craft comes to rest at is never the same twice:
-lowest to highest, 135.5 mm on Kerbin, 18.1 mm on the Mun, 3.9 mm on Minmus, 1.2 mm on Gilly.
+lowest to highest, 134.5 mm on Kerbin, 20.7 mm on the Mun, 6.7 mm on Minmus, 3.3 mm on Gilly.
 
 **→ Full chapter: [The measurements: loading the same save](docs/the-measurements-loading.md)**
 
@@ -135,6 +139,14 @@ to rest 7.5 to 19.2 mm from the height it was handed back at, upwards as often a
 different amount every time.
 
 **→ Full chapter: [The measurements: coming back to a craft you left](docs/the-measurements-approach.md)**
+
+**Switching to a craft far away** ([the protocol in full](docs/the-protocol-switching.md)). Six
+rounds on Kerbin, in the same kind of install as the approach series: the capsule is handed back at
+the same height every time, within two thousandths of a millimetre, and comes to rest after the switch
+at a different height every time: 104.5 mm from the lowest to the highest, upwards as well as
+downwards.
+
+**→ Full chapter: [The measurements: switching to a craft far away](docs/the-measurements-switching.md)**
 
 
 ## What this instrument shows, and what it does not

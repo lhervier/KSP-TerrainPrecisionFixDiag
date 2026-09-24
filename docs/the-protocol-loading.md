@@ -9,7 +9,7 @@ The other protocol takes the same reading on a craft that never comes back with 
 
 **1. Launch a capsule on its own** — no anchor, no wheels, no landing legs, nothing attached.
 
-![A lone capsule on the runway](../imgs/00-Launching.png)
+![A lone capsule on the runway](../imgs/protocols/reload/00-Launching.png)
 
 (The probe window is draggable — drop it wherever it does not get in the way.)
 
@@ -17,7 +17,7 @@ The other protocol takes the same reading on a craft that never comes back with 
 position*, then middle-click a patch of grass just off the end of the runway. No need to go far — the
 KSC apron is conveniently flat — but you do have to be off the tarmac itself.
 
-![Setting the position from the debug menu](../imgs/10-cheat-position.png)
+![Setting the position from the debug menu](../imgs/protocols/reload/10-cheat-position.png)
 
 ⚠️ **Not on the launchpad and not on the runway.** It works there too — the numbers move just the
 same. The trouble is that they no longer say what moved. The launchpad and the runway are structures,
@@ -41,7 +41,7 @@ value that stops moving once the capsule has come to rest.
 
 **3. Let it settle, and save once.**
 
-![Creating the save](../imgs/20-create-save.png)
+![Creating the save](../imgs/protocols/reload/20-create-save.png)
 
 If you pressed *Record* before saving — out of curiosity, while placing the capsule — delete that
 line now. It was taken before the save existed, so its **On rails** value is the launch position and
@@ -49,28 +49,28 @@ does not belong in the same column as the others.
 
 **4. Load that same save.**
 
-![Loading the save](../imgs/30-load.png)
+![Loading the save](../imgs/protocols/reload/30-load.png)
 
 **5. Watch the live line until it stops moving, then press *Record* at the end of it.**
 
-![The capsule settled, about to record](../imgs/40-record.png)
+![The capsule settled, about to record](../imgs/protocols/reload/40-record.png)
 
 The first line appears. **On rails** is the height the save gave back, **Settled** the height the
 capsule actually came to rest at, and **Moved** the difference — already not zero.
 
-![The first loading recorded](../imgs/45-recorded.png)
+![The first loading recorded](../imgs/protocols/reload/45-recorded.png)
 
 **6. Load the same save again.** Not a new save: the one from step 3, again.
 
-![Loading the same save again](../imgs/47-load-again.png)
+![Loading the same save again](../imgs/protocols/reload/47-load-again.png)
 
 **7. Settle, record again.** A second line appears, under the first.
 
-![A second loading recorded](../imgs/50-record-again.png)
+![A second loading recorded](../imgs/protocols/reload/50-record-again.png)
 
 **8. Repeat steps 6 and 7** until you have five or six lines.
 
-![Six loadings recorded](../imgs/60-record-again-and-again.png)
+![Six loadings recorded](../imgs/protocols/reload/60-record-again-and-again.png)
 
 ⚠️ **Never save again until the campaign is over.** Saving each time would write a new position every
 time, and you would be measuring your own round trip on top of the ground.

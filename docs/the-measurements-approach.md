@@ -7,7 +7,9 @@ to the last, it is one single flight. The other series, on a craft handed back b
 [The measurements: loading the same save](the-measurements-loading.md).
 
 The save the protocol uses is [`diag/approach-kerbin.sfs`](../diag/approach-kerbin.sfs), and
-[the protocol page](the-protocol-approach.md#the-save) says what it holds.
+[the protocol page](the-protocol-approach.md#the-save) says what it holds. The six round trips
+below were taken with an earlier version of it: the same two craft, a few metres apart, 1.4 km further
+east.
 
 ## The install
 
@@ -23,14 +25,14 @@ reading in progress, not a record.
 
 | round trip | **Moved** | screenshot |
 |---|---|---|
-| 1 | **+12.570 mm** | [`run1.png`](../imgs/approach/run1.png) |
-| 2 | **−17.549 mm** | [`run2.png`](../imgs/approach/run2.png) |
-| 3 | **+10.969 mm** | [`run3.png`](../imgs/approach/run3.png) |
-| 4 | **−7.749 mm** | [`run4.png`](../imgs/approach/run4.png) |
-| 5 | **−7.484 mm** | [`run5.png`](../imgs/approach/run5.png) |
-| 6 | **+19.170 mm** | [`run6.png`](../imgs/approach/run6.png) |
+| 1 | **+12.570 mm** | [`run1.png`](../imgs/measures/approach/run1.png) |
+| 2 | **−17.549 mm** | [`run2.png`](../imgs/measures/approach/run2.png) |
+| 3 | **+10.969 mm** | [`run3.png`](../imgs/measures/approach/run3.png) |
+| 4 | **−7.749 mm** | [`run4.png`](../imgs/measures/approach/run4.png) |
+| 5 | **−7.484 mm** | [`run5.png`](../imgs/measures/approach/run5.png) |
+| 6 | **+19.170 mm** | [`run6.png`](../imgs/measures/approach/run6.png) |
 
-![The first round trip of the series](../imgs/approach/run1.png)
+![The first round trip of the series](../imgs/measures/approach/run1.png)
 
 The round trip pictured under the protocol, taken in another flight of the same save, read
 −17.572 mm.
