@@ -34,6 +34,8 @@ these saves only load there. The protocol is [the loading protocol](../docs/the-
   load.
 - [`reload-earth-rss-resave.sfs`](reload-earth-rss-resave.sfs) — the same kind of craft, on the grass
   about 1.4 km west of the KSC on Earth.
+- [`reload-earth-rss-landed.sfs`](reload-earth-rss-landed.sfs) — the save above, with one line changed
+  in the file: the situation of the craft, from `PRELAUNCH` to `LANDED`.
 
 Copy a save into the folder of a sandbox game and load it from that game.
 
